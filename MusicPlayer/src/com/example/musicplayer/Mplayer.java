@@ -160,9 +160,9 @@ public class Mplayer extends Activity implements OnClickListener ,OnCompletionLi
 		super.onActivityResult(requestCode, resultCode, data);
 		if(resultCode==1)
 		{
-			String song_name=data.getStringExtra("title");
+			String song_name=data.getStringExtra("song_title");
 			String song_path=data.getStringExtra("song_path");
-			String song_album=data.getStringExtra("album");
+			String song_album=data.getStringExtra("song_album");
 			
 			songTitle.setText(song_name);
 			album.setText(song_album);
@@ -215,7 +215,7 @@ public class Mplayer extends Activity implements OnClickListener ,OnCompletionLi
 				break;
 
 			case R.id.pause :
-				
+				mplayer.pause();
 				break;
 
 			case R.id.previous :

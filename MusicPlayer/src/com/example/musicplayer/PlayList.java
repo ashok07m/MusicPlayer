@@ -64,13 +64,13 @@ public class PlayList extends Activity
 				int song_index=position;
 				String title=songlist.get(song_index).get("song_title");
 				String path=songlist.get(song_index).get("song_path");
-				String album=songlist.get(song_index).get("album");
+				String album=songlist.get(song_index).get("song_album");
 				Log.d("TAG","Song Path is : "+path);
 				
 				Intent it=new Intent(PlayList.this,Mplayer.class);
-				it.putExtra("title", title);
+				it.putExtra("song_title", title);
 				it.putExtra("song_path", path);
-				it.putExtra("album", album);
+				it.putExtra("song_album", album);
 				setResult(1, it);
 				finish();
 			}
@@ -95,8 +95,12 @@ public class PlayList extends Activity
 				
 				String sortOrder = MediaStore.Audio.Media.TITLE + " ASC";
 				
-				String[] projection = { MediaStore.Audio.Media._ID,
-						MediaStore.Audio.Media.ARTIST, MediaStore.Audio.Media.TITLE,
+				String[] projection = { 
+						
+						MediaStore.Audio.Media._ID,
+						MediaStore.Audio.Media.ARTIST,
+						MediaStore.Audio.Media.ALBUM, 
+						MediaStore.Audio.Media.TITLE,
 						MediaStore.Audio.Media.DATA,
 						MediaStore.Audio.Media.DISPLAY_NAME,
 						MediaStore.Audio.Media.DURATION 
@@ -107,15 +111,15 @@ public class PlayList extends Activity
 						uri, projection,
 						selection, null, sortOrder);
 
-				String path,name,album,artist;
+				String path,title,album,artist;
 
 				if (cursor.getCount() != 0) {
 					cursor.moveToFirst();
 					do{
 						path = cursor.getString(cursor
                                 .getColumnIndex(MediaStore.Audio.Media.DATA));
-						name = cursor.getString(cursor
-                                .getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME));
+						title = cursor.getString(cursor
+                                .getColumnIndex(MediaStore.Audio.Media.TITLE));
 						album= cursor.getString(cursor
                                 .getColumnIndex(MediaStore.Audio.Media.ALBUM));
 						
@@ -123,10 +127,10 @@ public class PlayList extends Activity
 						
 						HashMap<String, String> songs = new HashMap<String, String>();
 
-						songs.put("song_title",name);
+						songs.put("song_title",title);
 						songs.put("song_path", path);
-						songs.put("album", album);
-						Log.d("names","title :"+name+" path :"+path);
+						songs.put("song_album", album);
+						Log.d("names","title :"+title+"Album :"+album+" path :"+path);
 						/*
 						 * + "||" + cursor.getString(1) + "||" + cursor.getString(2) +
 						 * "||" + cursor.getString(3) + "||" + cursor.getString(4) +
