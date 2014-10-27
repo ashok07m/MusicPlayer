@@ -30,6 +30,9 @@ public class Mplayer extends Activity implements OnClickListener ,OnCompletionLi
 	static MediaPlayer mplayer;
 	SongList songlist;
 	
+	private int seekForwardTime = 5000; // 5000 milliseconds
+    private int seekBackwardTime = 5000; // 5000 milliseconds
+    
 	ArrayList<HashMap<String, String>> songs=new ArrayList<HashMap<String,String>>();
 	
 	Handler progressHandler=new Handler();
@@ -227,11 +230,28 @@ public class Mplayer extends Activity implements OnClickListener ,OnCompletionLi
 				break;
 
 			case R.id.forward :
-				
+				 int currentPosition1 = mplayer.getCurrentPosition();
+				// check if seekForward time is lesser than song duration
+				 if(currentPosition1 + seekForwardTime <= mplayer.getDuration()){
+	                // forward song
+	                mplayer.seekTo(currentPosition1 + seekForwardTime);
+	             }else{
+	                // forward to end position
+	                mplayer.seekTo(mplayer.getDuration());
+	             }      
 				break;
 
 			case R.id.rewind :
-				
+				// get current song position
+                int currentPosition2 = mplayer.getCurrentPosition();
+                // check if seekBackward time is greater than 0 sec
+                if(currentPosition2 - seekBackwardTime >= 0){
+                    // rewind song
+                	mplayer.seekTo(currentPosition2 - seekBackwardTime);
+                }else{
+                    // backward to starting position
+                	mplayer.seekTo(0);
+                }
 				break;
 
 			case R.id.playlist :
